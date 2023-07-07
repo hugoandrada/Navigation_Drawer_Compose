@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.rememberNavController
+import com.example.apps.navigation.drawer.compose.ui.components.DrawerHeader
 import com.example.apps.navigation.drawer.compose.ui.components.HomeTopBar
 import com.example.apps.navigation.drawer.compose.ui.navigation.Destinations
 import com.example.apps.navigation.drawer.compose.ui.navigation.NavigationHost
@@ -59,6 +60,7 @@ class MainActivity : ComponentActivity() {
                     gesturesEnabled = false,
                     drawerContent = {
                         ModalDrawerSheet {
+                            DrawerHeader()
                             Spacer(Modifier.height(12.dp))
                             navigationItems.forEach { item ->
                                 NavigationDrawerItem(
@@ -67,7 +69,9 @@ class MainActivity : ComponentActivity() {
                                     selected = currentRoute == item.route,
                                     onClick = {
                                         navController.navigate(item.route) {
-                                            popUpTo(navController.graph.findStartDestination().id)
+                                            popUpTo(navController.graph.findStartDestination().id) {
+                                                saveState = true
+                                            }
                                             launchSingleTop = true
                                         }
                                         scope.launch {
